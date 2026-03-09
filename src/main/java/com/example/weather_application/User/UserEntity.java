@@ -15,9 +15,9 @@ public class UserEntity {
     @Column(name = "user_id")
     private String userId;
     @Column(name = "locations")
-    private List<String> locations;
+    private String locations;
 
-    public UserEntity(@NotNull String userId, List<String> locations) {
+    public UserEntity(@NotNull String userId, String locations) {
         this.userId = userId;
         this.locations = locations;
     }
@@ -25,13 +25,16 @@ public class UserEntity {
     public UserEntity() {
     }
 
+    public UserEntity(Long id, String userId, String locations) {
+        this.id = id;
+        this.userId = userId;
+        this.locations = locations;
+    }
+
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getUserId() {
         return userId;
@@ -41,11 +44,11 @@ public class UserEntity {
         this.userId = userId;
     }
 
-    public List<String> getLocations() {
+    public String getLocations() {
         return locations;
     }
 
-    public void setLocations(List<String> locations) {
+    public void setLocations(String locations) {
         this.locations = locations;
     }
 }
