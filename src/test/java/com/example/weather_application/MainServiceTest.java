@@ -1,16 +1,16 @@
 package com.example.weather_application;
 
-import com.example.weather_application.Errors.UserAlreadyExistException;
-import com.example.weather_application.Location.Location;
-import com.example.weather_application.Location.LocationEntity;
-import com.example.weather_application.Mappers.LocationMapper;
-import com.example.weather_application.Mappers.UserMapper;
-import com.example.weather_application.Repos.LocationRepository;
-import com.example.weather_application.Repos.UserRepository;
-import com.example.weather_application.Services.MainService;
-import com.example.weather_application.Services.WeatherService;
-import com.example.weather_application.User.User;
-import com.example.weather_application.User.UserEntity;
+import com.example.weather_application.errors.UserAlreadyExistException;
+import com.example.weather_application.location.Location;
+import com.example.weather_application.location.LocationEntity;
+import com.example.weather_application.mappers.LocationMapper;
+import com.example.weather_application.mappers.UserMapper;
+import com.example.weather_application.repos.LocationRepository;
+import com.example.weather_application.repos.UserRepository;
+import com.example.weather_application.services.MainService;
+import com.example.weather_application.services.WeatherService;
+import com.example.weather_application.user.User;
+import com.example.weather_application.user.UserEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

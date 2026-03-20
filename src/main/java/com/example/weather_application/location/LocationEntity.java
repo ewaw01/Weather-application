@@ -1,8 +1,6 @@
-package com.example.weather_application.Location;
+package com.example.weather_application.location;
 
 import jakarta.persistence.*;
-
-import java.time.LocalDateTime;
 
 @Table(name = "cache_locations")
 @Entity
@@ -12,25 +10,25 @@ public class LocationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "name")
-    public String name;
+    private String name;
     @Column(name = "country")
-    public String country;
+    private String country;
     @Column(name = "description")
-    public String description;
+    private String description;
     @Column(name = "icon")
-    public String icon;
+    private String icon;
     @Column(name = "temperature")
-    public Double temperature;
+    private Double temperature;
     @Column(name = "humidity")
-    public Long humidity;
+    private Long humidity;
     @Column(name = "windSpeed")
-    public String windSpeed;
+    private String windSpeed;
     @Column(name = "sunrise")
-    public Long sunrise;
+    private Long sunrise;
     @Column(name = "sunset")
-    public Long sunset;
+    private Long sunset;
     @Column(name = "time")
-    public String time;
+    private String time;
 
     public LocationEntity() {
     }

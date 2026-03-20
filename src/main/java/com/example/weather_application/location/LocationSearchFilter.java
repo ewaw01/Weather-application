@@ -1,4 +1,4 @@
-package com.example.weather_application.Location;
+package com.example.weather_application.location;
 
 public record LocationSearchFilter(
         Long id,

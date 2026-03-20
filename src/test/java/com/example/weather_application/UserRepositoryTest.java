@@ -1,7 +1,7 @@
 package com.example.weather_application;
 
-import com.example.weather_application.Repos.UserRepository;
-import com.example.weather_application.User.UserEntity;
+import com.example.weather_application.repos.UserRepository;
+import com.example.weather_application.user.UserEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

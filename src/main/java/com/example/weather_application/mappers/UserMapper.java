@@ -1,7 +1,7 @@
-package com.example.weather_application.Mappers;
+package com.example.weather_application.mappers;
 
-import com.example.weather_application.User.User;
-import com.example.weather_application.User.UserEntity;
+import com.example.weather_application.user.User;
+import com.example.weather_application.user.UserEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;

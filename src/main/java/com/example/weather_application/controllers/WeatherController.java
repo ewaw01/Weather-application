@@ -1,11 +1,11 @@
-package com.example.weather_application.Controllers;
+package com.example.weather_application.controllers;
 
-import com.example.weather_application.Location.Location;
-import com.example.weather_application.Location.LocationSearchFilter;
-import com.example.weather_application.Services.WeatherService;
-import com.example.weather_application.User.User;
-import com.example.weather_application.Services.MainService;
-import com.example.weather_application.User.UserSearchFilter;
+import com.example.weather_application.location.Location;
+import com.example.weather_application.location.LocationSearchFilter;
+import com.example.weather_application.services.WeatherService;
+import com.example.weather_application.user.User;
+import com.example.weather_application.services.MainService;
+import com.example.weather_application.user.UserSearchFilter;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

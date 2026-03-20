@@ -1,4 +1,4 @@
-package com.example.weather_application.Errors;
+package com.example.weather_application.errors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

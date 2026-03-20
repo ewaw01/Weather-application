@@ -1,4 +1,4 @@
-package com.example.weather_application.User;
+package com.example.weather_application.user;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;

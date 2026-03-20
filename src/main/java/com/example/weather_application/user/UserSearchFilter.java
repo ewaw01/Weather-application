@@ -1,4 +1,4 @@
-package com.example.weather_application.User;
+package com.example.weather_application.user;
 
 public record UserSearchFilter(
         Long id,

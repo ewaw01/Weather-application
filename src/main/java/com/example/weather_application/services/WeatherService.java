@@ -1,19 +1,20 @@
-package com.example.weather_application.Services;
+package com.example.weather_application.services;
 
-import com.example.weather_application.Location.Location;
-import com.example.weather_application.Location.LocationEntity;
-import com.example.weather_application.Errors.LocationIsAlreadyIncludedException;
-import com.example.weather_application.Mappers.LocationMapper;
-import com.example.weather_application.Repos.LocationRepository;
-import com.example.weather_application.Repos.UserRepository;
-import com.example.weather_application.User.UserEntity;
-import com.example.weather_application.Mappers.UserMapper;
+import com.example.weather_application.location.Location;
+import com.example.weather_application.location.LocationEntity;
+import com.example.weather_application.errors.LocationIsAlreadyIncludedException;
+import com.example.weather_application.mappers.LocationMapper;
+import com.example.weather_application.repos.LocationRepository;
+import com.example.weather_application.repos.UserRepository;
+import com.example.weather_application.user.UserEntity;
+import com.example.weather_application.mappers.UserMapper;
 import com.example.weather_application.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
@@ -103,24 +104,19 @@ public class WeatherService {
         }
     }
 
+    @Transactional
     public Location postLocationForUser(
             String nameLocation,
             Long userId
     ) {
         log.info("postLocationForUser call");
 
-        if(userRepository.findById(userId).get().getLocations().contains(nameLocation)) {
-            throw new LocationIsAlreadyIncludedException("Location already exists");
-        }
-
         UserEntity oldUser = userRepository.findById(userId).orElseThrow(()->
                 new NoSuchElementException("User Not Found"));
 
-//        userRepository.save(new UserEntity(
-//                oldUser.getId(),
-//                oldUser.getUserId(),
-//                oldUser.getLocations() + " " + nameLocation + " "
-//        ));
+        if(userRepository.findById(userId).get().getLocations().contains(nameLocation)) {
+            throw new LocationIsAlreadyIncludedException("Location already exists");
+        }
 
         if(locationRepository.findByName(nameLocation).isPresent()) {
             userRepository.save(new UserEntity(

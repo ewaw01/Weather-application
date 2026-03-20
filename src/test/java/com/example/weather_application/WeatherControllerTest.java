@@ -1,14 +1,14 @@
 package com.example.weather_application;
 
-import com.example.weather_application.Controllers.WeatherController;
-import com.example.weather_application.Errors.LocationIsAlreadyIncludedException;
-import com.example.weather_application.Errors.UserAlreadyExistException;
-import com.example.weather_application.Location.Location;
-import com.example.weather_application.Location.LocationSearchFilter;
-import com.example.weather_application.Services.MainService;
-import com.example.weather_application.Services.WeatherService;
-import com.example.weather_application.User.User;
-import com.example.weather_application.User.UserSearchFilter;
+import com.example.weather_application.controllers.WeatherController;
+import com.example.weather_application.errors.LocationIsAlreadyIncludedException;
+import com.example.weather_application.errors.UserAlreadyExistException;
+import com.example.weather_application.location.Location;
+import com.example.weather_application.location.LocationSearchFilter;
+import com.example.weather_application.services.MainService;
+import com.example.weather_application.services.WeatherService;
+import com.example.weather_application.user.User;
+import com.example.weather_application.user.UserSearchFilter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

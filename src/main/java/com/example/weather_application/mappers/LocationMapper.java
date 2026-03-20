@@ -1,7 +1,7 @@
-package com.example.weather_application.Mappers;
+package com.example.weather_application.mappers;
 
-import com.example.weather_application.Location.Location;
-import com.example.weather_application.Location.LocationEntity;
+import com.example.weather_application.location.Location;
+import com.example.weather_application.location.LocationEntity;
 import org.springframework.stereotype.Component;
 
 @Component
