@@ -1,6 +1,12 @@
-package com.example.weather_application.location;
+package com.example.weather_application.entities;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Table(name = "cache_locations")
 @Entity
@@ -29,6 +35,15 @@ public class LocationEntity {
     private Long sunset;
     @Column(name = "time")
     private String time;
+    @Column(name = "last_updated")
+    private LocalDate lastUpdated;
+    @ManyToMany
+    @JoinTable(
+            name = "users_locations",
+            joinColumns = @JoinColumn(name = "location_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<UserEntity> usersEntities = new ArrayList<>();
 
     public LocationEntity() {
     }
@@ -45,6 +60,21 @@ public class LocationEntity {
         this.sunrise = sunrise;
         this.sunset = sunset;
         this.time = time;
+    }
+
+    public LocationEntity(Long id, String name, String country, String description, String icon, Double temperature, Long humidity, String windSpeed, Long sunrise, Long sunset, String time, LocalDate lastUpdated) {
+        this.id = id;
+        this.name = name;
+        this.country = country;
+        this.description = description;
+        this.icon = icon;
+        this.temperature = temperature;
+        this.humidity = humidity;
+        this.windSpeed = windSpeed;
+        this.sunrise = sunrise;
+        this.sunset = sunset;
+        this.time = time;
+        this.lastUpdated = lastUpdated;
     }
 
     public String getTime() {
@@ -133,5 +163,31 @@ public class LocationEntity {
 
     public void setSunset(Long sunset) {
         this.sunset = sunset;
+    }
+
+    public LocalDate getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(LocalDate lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
+    public List<UserEntity> getUsersEntities() {
+        return usersEntities;
+    }
+
+    public void setUsersEntities(List<UserEntity> usersEntities) {
+        this.usersEntities = usersEntities;
+    }
+
+    public void addUser(UserEntity user) {
+        if (!usersEntities.contains(user)) {
+            usersEntities.add(user);
+        }
+    }
+
+    public void removeUser(UserEntity user) {
+        usersEntities.remove(user);
     }
 }

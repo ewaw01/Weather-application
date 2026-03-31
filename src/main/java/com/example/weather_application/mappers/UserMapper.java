@@ -1,7 +1,7 @@
 package com.example.weather_application.mappers;
 
 import com.example.weather_application.user.User;
-import com.example.weather_application.user.UserEntity;
+import com.example.weather_application.entities.UserEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -12,28 +12,14 @@ public class UserMapper {
     public User toDomain(UserEntity userEntity) {
         return new User(
                 userEntity.getId(),
-                userEntity.getUserId(),
-                userEntity.getLocations()
+                userEntity.getUserId()
         );
     }
 
     public UserEntity toEntity(User user) {
-        if (user.locations() == null || user.locations().isEmpty()) {
-            throw new IllegalArgumentException("User must have at least one location");
-        }
-
-        List<String> locationsList = Arrays.stream(user.locations().split(" ")).toList();
-
-        String newListLocations = "";
-
-        for(String el: locationsList) {
-            newListLocations += el + " ";
-        }
-
         return new UserEntity(
                 user.id(),
-                user.userId(),
-                newListLocations
+                user.userId()
         );
     }
 }

@@ -1,7 +1,7 @@
 package com.example.weather_application;
 
 import com.example.weather_application.repos.UserRepository;
-import com.example.weather_application.user.UserEntity;
+import com.example.weather_application.entities.UserEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,8 +25,7 @@ public class UserRepositoryTest {
         String username = "Tutta";
         UserEntity userEntity = new UserEntity(
                 null,
-                "Tutta",
-                "some locations..."
+                "Tutta"
         );
 
         entityManager.persistAndFlush(userEntity);
@@ -35,7 +34,6 @@ public class UserRepositoryTest {
 
         Assertions.assertTrue(found.isPresent());
         Assertions.assertEquals("Tutta", found.get().getUserId());
-        Assertions.assertEquals("some locations...", found.get().getLocations());
     }
 
     @Test
@@ -51,15 +49,13 @@ public class UserRepositoryTest {
     public void saveUser_AutoGenerateId() {
         UserEntity userEntity = new UserEntity(
                 null,
-                "Tutta",
-                "some locations..."
+                "Tutta"
         );
 
         UserEntity savedUser = userRepository.save(userEntity);
 
         Assertions.assertNotNull(userEntity.getId());
         Assertions.assertEquals("Tutta", savedUser.getUserId());
-        Assertions.assertEquals("some locations...", savedUser.getLocations());
     }
 
     @Test
@@ -67,8 +63,7 @@ public class UserRepositoryTest {
     public void deleteUserById_UserExists() {
         UserEntity userEntity = new UserEntity(
                 null,
-                "Tutta",
-                "some locations..."
+                "Tutta"
         );
 
         Long id = entityManager.persistAndFlush(userEntity).getId();

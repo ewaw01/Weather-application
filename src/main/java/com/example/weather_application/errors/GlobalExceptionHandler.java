@@ -80,4 +80,19 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(NonExistentLocationNameException.class)
+    public ResponseEntity<ErrorResponseDto> handleErrorsRelatedToIncorrectDataInHTTP(
+            Exception e
+    ) {
+        log.error("(handleHttpClientError) Handled exception " + e.getMessage());
+
+        return ResponseEntity.badRequest().body(
+                new ErrorResponseDto(
+                        "Bad request",
+                        e.getMessage(),
+                        LocalDateTime.now()
+                )
+        );
+    }
+
 }

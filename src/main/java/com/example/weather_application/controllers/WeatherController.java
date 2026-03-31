@@ -28,7 +28,7 @@ public class WeatherController {
         this.weatherService = weatherService;
     }
 
-    @PostMapping("/add_user")
+    @PostMapping("/users")
     public ResponseEntity<User> postUser (
             @RequestBody @Valid User user
     ) {
@@ -38,7 +38,7 @@ public class WeatherController {
                 .body(mainService.addUser(user));
     }
 
-    @GetMapping("/user")
+    @GetMapping("/users")
     public ResponseEntity<List<User>> findUserByFilter(
         @RequestParam(name = "id", required = false) Long id,
         @RequestParam(name = "userId", required = false) String userId,
@@ -59,7 +59,7 @@ public class WeatherController {
         );
     }
 
-    @GetMapping("/location")
+    @GetMapping("/locations")
     public ResponseEntity<List<Location>> findLocationByFilter(
             @RequestParam(name = "id", required = false) Long id,
             @RequestParam(name = "name", required = false) String name,
@@ -98,7 +98,7 @@ public class WeatherController {
         );
     }
 
-    @DeleteMapping("/delete_user/{id}")
+    @DeleteMapping("/users/{id}")
     public ResponseEntity<Void> deleteUser (
             @PathVariable Long id
     ) {
@@ -107,7 +107,7 @@ public class WeatherController {
                 .body(mainService.deleteUser(id));
     }
 
-    @DeleteMapping("/delete_location/{id}")
+    @DeleteMapping("/locations/{id}")
     public ResponseEntity<Void> deleteLocation (
             @PathVariable Long id
     ) {
@@ -116,24 +116,19 @@ public class WeatherController {
                 .body(mainService.deleteLocation(id));
     }
 
-    @PutMapping("/add_location/{userId}")
+    @PutMapping("/users/{userId}/locations")
     public ResponseEntity<Location> postLocation (
            @PathVariable Long userId,
            @RequestBody Location location
     ) {
         log.info("Posting location " + location.name() + " for user with id {}", userId);
+        log.warn("Данные поступают только на ру раскладке, иначе баг !!!!!!! " + location.name());
 
-        log.warn("Данные поступают только на ру раскладке, иначе баг !!!!!!! " + location.name()); /* на этом этапе могут поступать один и тот же город на разных языках,
-         с заглавной и не с заглавной буквы, но программа не будет считывать это все как один город, вместо этого она добавит
-         юзеру : "Paris, paris, Париж, париж ...", это нужно исправить. Нужно пользоваться id города, который приходит в json-е
-         То есть сервис должен принимать из контроллера не location.name(), а location.idOW (id Open Weather)
-         Надо будет добавить во Location, LocationEntity во все сущности, где это нужно, поле idOW (id Open Weather)
-        */
         return ResponseEntity.ok()
-                .body(weatherService.postLocationForUser(location.name().toLowerCase(), userId)); //сделаем чтобы location.name() из контроллера приходил в нижнем регистре, далее сделаем так, чтобы локации сохранялись в бд с нижним регистром тоже (для начала хотя бы так)
+                .body(weatherService.postLocationForUser(location.name(), userId));
     }
 
-    @PutMapping("/update_user/{id}")
+    @PutMapping("/users/{id}")
     public ResponseEntity<User> updateUser (
             @PathVariable("id") Long id,
             @RequestBody @Valid User user
@@ -144,16 +139,24 @@ public class WeatherController {
                 .body(mainService.updateUser(id, user));
     }
 
-    @GetMapping("/get_info_location")
+    @GetMapping("/info/locations")
     public ResponseEntity<Location> getLocation (
-            @RequestBody Location location
+            @RequestParam String name
     ) {
-        log.info("Getting location " + location.name());
-
-        //здесь та же проблема, что и в postLocation
+        log.info("Getting location " + name);
 
         return ResponseEntity.ok()
-                .body(mainService.getLocation(location.name()));
+                .body(mainService.getLocation(name));
+    }
+
+    @GetMapping("/users/{id}/locations")
+    public ResponseEntity<List<Location>> getUserLocations (
+            @PathVariable Long id
+    ) {
+        log.info("Getting locations for user with id {}", id);
+
+        return ResponseEntity.ok()
+                .body(mainService.findUserLocations(id));
     }
 
 }

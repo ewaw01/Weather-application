@@ -1,6 +1,6 @@
 package com.example.weather_application.repos;
 
-import com.example.weather_application.location.LocationEntity;
+import com.example.weather_application.entities.LocationEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

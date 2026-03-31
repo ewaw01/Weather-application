@@ -7,8 +7,6 @@ public record User (
         @Nullable
         Long id,
         @NotBlank(message = "user id is not null")
-        String userId,
-        @Nullable
-        String locations
+        String userId
 ) {
 }

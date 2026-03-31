@@ -2,25 +2,26 @@ package com.example.weather_application.services;
 
 import com.example.weather_application.errors.UserAlreadyExistException;
 import com.example.weather_application.location.Location;
-import com.example.weather_application.location.LocationEntity;
+import com.example.weather_application.entities.LocationEntity;
 import com.example.weather_application.location.LocationSearchFilter;
 import com.example.weather_application.mappers.LocationMapper;
 import com.example.weather_application.repos.LocationRepository;
 import com.example.weather_application.repos.UserRepository;
 import com.example.weather_application.user.User;
-import com.example.weather_application.user.UserEntity;
+import com.example.weather_application.entities.UserEntity;
 import com.example.weather_application.mappers.UserMapper;
 import com.example.weather_application.user.UserSearchFilter;
 import com.example.weather_application.Utils;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @Service
 public class MainService {
@@ -45,7 +46,7 @@ public class MainService {
         this.utils = utils;
     }
 
-    public User addUser( //!напиши проверку на id и location, при создании юзера можно вводить только userId
+    public User addUser(
             User user
     ) {
         log.info("Adding new user");
@@ -55,8 +56,7 @@ public class MainService {
         }
 
         UserEntity userEntity = new UserEntity(
-                user.userId(),
-                ""
+                user.userId()
         );
 
         userRepository.save(userEntity);
@@ -84,7 +84,8 @@ public class MainService {
             LocationEntity oldLocation = locationRepository.findByName(nameLocation.toLowerCase()).get();
 
             if(!utils.calculateTheTimeInterval(LocalDateTime.now()
-                    .toString().split("T")[1].substring(0, 2)).equals(oldLocation.getTime())) {
+                    .toString().split("T")[1].substring(0, 2)).equals(oldLocation.getTime()) || (utils.calculateTheTimeInterval(LocalDateTime.now()
+                    .toString().split("T")[1].substring(0, 2)).equals(oldLocation.getTime()) && !Objects.equals(oldLocation.getLastUpdated(), LocalDate.now()))) {
                 location = locationRepository.save(weatherService.getInfoLocation(nameLocation.toLowerCase()));
             } else {
                 location = oldLocation;
@@ -121,8 +122,7 @@ public class MainService {
 
         var updatedUser = userRepository.save(new UserEntity(
                 id,
-                user.userId(),
-                user.locations()
+                user.userId()
         ));
 
         return userMapper.toDomain(updatedUser);
@@ -181,5 +181,21 @@ public class MainService {
         return pageResult.stream()
                 .map(locationMapper::toDomain)
                 .toList();
+    }
+
+    public List<Location> findUserLocations(
+            Long id
+    ) {
+        UserEntity user = userRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("User with id " + id + " not found"));
+
+        List<LocationEntity> locationsEnt = user.getLocationEntities();
+        if(locationsEnt.isEmpty()) {
+            return Collections.emptyList();
+        } else {
+            return locationsEnt.stream()
+                    .map(locationMapper::toDomain)
+                    .toList();
+        }
     }
 }
