@@ -426,9 +426,9 @@ public class WeatherControllerTest {
     }
 
     @Test
-    @DisplayName("GET /api/weather/locations/info - успешное получение информации о лакации")
+    @DisplayName("GET /api/weather/info/locations? - успешное получение информации о локации")
     void getLocation_Expected200Ok() throws Exception {
-        Location locationInput = new Location(null, "москва", null, null, null, null, null, null, null, null, null);
+        String locationName = "москва";
         Location locationOutput = new Location(
                 19L,
                 "москва",
@@ -443,14 +443,12 @@ public class WeatherControllerTest {
                 "18"
         );
 
-        Mockito.when(mainService.getLocation(Mockito.anyString()))
+        Mockito.when(mainService.getLocation(locationName))
                 .thenReturn(locationOutput);
 
-        String response = objectMapper.writeValueAsString(locationInput);
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/weather/locations/info")
-        .contentType(MediaType.APPLICATION_JSON)
-                .content(response))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/weather/info/locations")
+                        .param("name", locationName)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(19L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("москва"))
@@ -464,26 +462,24 @@ public class WeatherControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.sunset").value(1772377358L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.time").value("18"));
 
-        Mockito.verify(mainService, Mockito.times(1)).getLocation(Mockito.anyString());
+        Mockito.verify(mainService, Mockito.times(1)).getLocation(locationName);
     }
 
     @Test
-    @DisplayName("GET /api/weather/locations/info - локация не найдена")
+    @DisplayName("GET /api/weather/info/locations? - локация не найдена")
     void getLocation_LocationNotExists_Expected404() throws Exception {
-        Location locationInput = new Location(null, "москва", null, null, null, null, null, null, null, null, null);
+        String locationName = "несуществующий_город";
 
-        Mockito.when(mainService.getLocation(Mockito.anyString()))
+        Mockito.when(mainService.getLocation(locationName))
                 .thenThrow(new NoSuchElementException());
 
-        String response = objectMapper.writeValueAsString(locationInput);
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/weather/locations/info")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(response))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/weather/info/locations")
+                        .param("name", locationName)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Not found"));
 
-        Mockito.verify(mainService, Mockito.times(1)).getLocation(Mockito.anyString());
+        Mockito.verify(mainService, Mockito.times(1)).getLocation(locationName);
     }
 
     @Test
