@@ -149,35 +149,6 @@ public class WeatherService {
 
             return locationMapper.toDomain(newLocation);
         }
-
-//--------------------------------
-//        if(userRepository.findById(userId).get().getLocations().contains(nameLocation)) {
-//            throw new LocationIsAlreadyIncludedException("Location already exists");
-//        }
-//
-//        if(locationRepository.findByName(nameLocation).isPresent()) {
-//            userRepository.save(new UserEntity(
-//                    oldUser.getId(),
-//                    oldUser.getUserId(),
-//                    oldUser.getLocations() + " " + nameLocation + " "
-//            ));
-//
-//            LocationEntity newLocation = locationRepository.findByName(nameLocation).get();
-//
-//            return locationMapper.toDomain(newLocation);
-//        } else {
-//            LocationEntity newLocation = getInfoLocation(nameLocation);
-//
-//            userRepository.save(new UserEntity(
-//                    oldUser.getId(),
-//                    oldUser.getUserId(),
-//                    oldUser.getLocations() + " " + nameLocation + " "
-//            ));
-//
-//            locationRepository.save(newLocation);
-//
-//            return locationMapper.toDomain(newLocation);
-//        }
     }
 
 }
