@@ -204,13 +204,14 @@ _**Примеры запросов (Postman)**_
    ![Обновление пользователя](screenshots/update-user.png)
 
 Пару примеров ошибок:
+
 10. Ошибка 404 — пользователь не найден:
     DELETE http://localhost:8080/api/weather/users/999
     
     Скриншот из Postman:
     ![Ошибка 404](screenshots/error-404.png)
 
-11. Ошибка 400 — неверные данные:
+12. Ошибка 400 — неверные данные:
     POST http://localhost:8080/api/weather/users
     
     body:
