@@ -60,21 +60,26 @@ _Проблема_: TransientPropertyValueException ошибка при сохр
 сохранял пользователя раньше локации, возникала ошибка трансиентности, так как локация оставалась в, так сказать, незавершенном состоянии.
 
 _**Как запустить?**_
+
 **Шаг 1: Требования**
   * Java 21 (java -version)
   * Maven 3.8+ (mvn -version)
   * PostgreSQL любая (psql --version)
+
 **Шаг 2: Клонирование репозитория**
   * git clone https://github.com/ewaw01/Weather-application.git
   * cd Weather-application
+
 **Шаг 3: Создать БД**
   * Запускаем PostgreSQL (можно в контейнере Docker)
   * Создаем БД: CREATE DATABASE weather_db;
   * Можно также через командную строку: createdb -U postgres weather_db
+
 **Шаг 4: Получить API ключ OpenWeatherMap**
   * Зарегистрируйся на OpenWeatherMap
   * Перейди в раздел "My API Keys"
   * Скопируй свой API ключ (или создай новый)
+
 **Шаг 5: Настройка конфигурации**
   * БД настройки:
     spring.datasource.url=jdbc:postgresql://localhost:5432/weather_db
@@ -90,6 +95,7 @@ _**Как запустить?**_
     openweather.defaults.units=metric
     openweather.defaults.lang=ru
   * Требуется заменить your_password на свой пароль PostgreSQL, а YOUR_API_KEY_HERE на реальный API ключ
+
 **Шаг 6: Запуск приложения**
   * ./mvnw spring-boot:run
 
