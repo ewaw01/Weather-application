@@ -124,7 +124,7 @@ _**API-эндпоинты**_
   - PUT /users/{id} - обновить данные пользователя
   - DELETE /users/{id} - удалить пользователя
   - GET /users/{id}/locations - получить все локации пользователя
-  - PUT /users/userId/locations - добавить локацию пользователю
+  - PUT /users/{userId}/locations - добавить локацию пользователю
   - DELETE /users/{id}/locations - удалить локацию у пользователя (по названию)
 
 **Локации и погода**
@@ -147,6 +147,7 @@ _**Примеры запросов (Postman)**_
 
 2. Получить всех пользователей с пагинацией:
    GET http://localhost:8080/api/weather/users?pageNum=0&pageSize=10
+   
    Скриншот из Postman:
    ![Получение пользователей](screenshots/get-users.png)
 
@@ -163,26 +164,31 @@ _**Примеры запросов (Postman)**_
 
 4. Получить локации пользователя:
    GET http://localhost:8080/api/weather/users/23/locations
+   
    Скриншот из Postman:
    ![Локации пользователя](screenshots/user-locations.png)
 
 5. Получить погоду по названию локации:
    GET http://localhost:8080/api/weather/info/locations?name=москва
+   
    Скриншот из Postman:
    ![Получение погоды](screenshots/get-weather.png)
 
 6. Удалить локацию у пользователя:
    DELETE http://localhost:8080/api/weather/users/18/locations?name=москва
+   
    Скриншот из Postman:
    ![Удаление локации](screenshots/delete-location.png)
 
 7. Удалить пользователя:
    DELETE http://localhost:8080/api/weather/users/1
+
    Скриншот из Postman:
    ![Удаление пользователя](screenshots/delete-user.png)
 
 8. Получить все локации (кэш):
    GET http://localhost:8080/api/weather/locations?pageNum=0&pageSize=10
+
    Скриншот из Postman:
    ![Все локации](screenshots/all-locations.png)
 
@@ -200,6 +206,7 @@ _**Примеры запросов (Postman)**_
 Пару примеров ошибок:
 10. Ошибка 404 — пользователь не найден:
     DELETE http://localhost:8080/api/weather/users/999
+    
     Скриншот из Postman:
     ![Ошибка 404](screenshots/error-404.png)
 
@@ -242,4 +249,5 @@ _**Дальнейшие планы развития проекта**_
 7. Функционал — сохранять историю запросов пользователя, автоматическое определение города по IP
 
 _**Контакты**_
-- GitHub: [github.com/ewaw01](https://github.com/ewaw01)
+
+GitHub: [github.com/ewaw01](https://github.com/ewaw01)
