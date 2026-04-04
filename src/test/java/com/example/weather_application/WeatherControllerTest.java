@@ -544,4 +544,38 @@ public class WeatherControllerTest {
         Mockito.verify(mainService, Mockito.times(1)).findUserLocations(Mockito.anyLong());
     }
 
+    @Test
+    @DisplayName("DELETE /api/weather/users/{id}/locations? - успешное удаление локации у юзера")
+    void deleteUserLocations_UserExists_Expected200Ok() throws Exception {
+        Long id = 23L;
+        String locationName = "москва";
+
+        Mockito.doReturn(null)
+                .when(mainService).deleteLocationForUser(Mockito.eq(id), Mockito.eq(locationName));
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/weather/users/{id}/locations", id)
+                        .param("name", locationName)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        Mockito.verify(mainService, Mockito.times(1)).deleteLocationForUser(Mockito.anyLong(), Mockito.anyString());
+    }
+
+    @Test
+    @DisplayName("DELETE /api/weather/users/{id}/locations? - юзера не существует или локации нет у юзера")
+    void deleteUserLocations_UserNotExists_Expected404() throws Exception {
+        Long id = 23L;
+        String locationName = "москва";
+
+        Mockito.when(mainService.deleteLocationForUser(Mockito.anyLong(), Mockito.anyString()))
+                .thenThrow(new NoSuchElementException());
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/weather/users/{id}/locations", id)
+                        .param("name", locationName)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
+
+        Mockito.verify(mainService, Mockito.times(1)).deleteLocationForUser(Mockito.anyLong(), Mockito.anyString());
+    }
+
 }

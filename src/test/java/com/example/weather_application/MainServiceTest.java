@@ -22,6 +22,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -450,6 +451,84 @@ public class MainServiceTest {
         );
 
         Assertions.assertEquals("User with id " + id + " not found", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("успешное удаление локации у юзера")
+    void deleteLocationForUser_Successfully() {
+        Long id = 23L;
+        String name = "moscow";
+
+        LocationEntity locationEntity1 = new LocationEntity(
+                1L, "moscow", "RU", "облачно", "04d", 2.5, 78L, "3.6",
+                1700000000L, 1700050000L, "12"
+        );
+
+        List<LocationEntity> locationEntities = new ArrayList<>(List.of(locationEntity1));
+
+        UserEntity user = new UserEntity(
+                23L,
+                "Goga",
+                locationEntities
+        );
+
+        Mockito.when(userRepository.findById(Mockito.anyLong()))
+                .thenReturn(Optional.of(user));
+
+        mainService.deleteLocationForUser(id, name);
+        boolean result = user.getLocationEntities().isEmpty();
+
+        Assertions.assertTrue(result);
+
+        Mockito.verify(userRepository, Mockito.times(1)).findById(Mockito.anyLong());
+    }
+
+    @Test
+    @DisplayName("пользователь не найден")
+    void deleteLocationForUser_UserNotFound_ThrowsException() {
+        Long id = 23L;
+        String name = "moscow";
+
+        Mockito.when(userRepository.findById(id))
+                .thenReturn(Optional.empty());
+
+        NoSuchElementException exception = Assertions.assertThrows(
+                NoSuchElementException.class,
+                () -> mainService.deleteLocationForUser(id, name)
+        );
+
+        Assertions.assertEquals("User with id " + id + " not found", exception.getMessage());
+        Mockito.verify(userRepository, Mockito.times(1)).findById(id);
+        Mockito.verify(userRepository, Mockito.never()).save(Mockito.any());
+    }
+
+    @Test
+    @DisplayName("у пользователя нет такой локации")
+    void deleteLocationForUser_LocationNotFound_ThrowsException() {
+        Long id = 23L;
+        String name = "paris";
+
+        LocationEntity locationEntity1 = new LocationEntity(
+                1L, "moscow", "RU", "облачно", "04d", 2.5, 78L, "3.6",
+                1700000000L, 1700050000L, "12"
+        );
+
+        List<LocationEntity> locationEntities = new ArrayList<>();
+        locationEntities.add(locationEntity1);
+
+        UserEntity user = new UserEntity(23L, "Goga", locationEntities);
+
+        Mockito.when(userRepository.findById(id))
+                .thenReturn(Optional.of(user));
+
+        NoSuchElementException exception = Assertions.assertThrows(
+                NoSuchElementException.class,
+                () -> mainService.deleteLocationForUser(id, name)
+        );
+
+        Assertions.assertEquals("User is not has location with name " + name, exception.getMessage());
+        Mockito.verify(userRepository, Mockito.times(1)).findById(id);
+        Mockito.verify(userRepository, Mockito.never()).save(Mockito.any());
     }
 
 }

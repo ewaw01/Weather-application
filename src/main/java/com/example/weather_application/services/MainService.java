@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -116,8 +117,12 @@ public class MainService {
     ) {
         log.info("Updating user with id " + id);
 
-        if (userRepository.findById(id).isEmpty()) {
+        Optional<UserEntity> userEntity1 = userRepository.findById(id);
+        Optional<UserEntity> userEntity2 = userRepository.findByUserId(user.userId());
+        if (userEntity1.isEmpty()) {
             throw new NoSuchElementException("User with id " + id + " not found");
+        } else if (userEntity2.isPresent() && !userEntity1.get().getId().equals(userEntity2.get().getId())) {
+            throw new UserAlreadyExistException("User id " + user.userId() + " already exists");
         }
 
         var updatedUser = userRepository.save(new UserEntity(
@@ -186,6 +191,8 @@ public class MainService {
     public List<Location> findUserLocations(
             Long id
     ) {
+        log.info("Finding user locations with id " + id);
+
         UserEntity user = userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User with id " + id + " not found"));
 
@@ -198,4 +205,38 @@ public class MainService {
                     .toList();
         }
     }
+
+    @Transactional
+    public Void deleteLocationForUser(
+            Long id,
+            String name
+    ) {
+        log.info("Deleting location " + name + " for user with id " + id);
+
+        name = name.toLowerCase();
+
+        Optional<UserEntity> userEntity = userRepository.findById(id);
+        if (userEntity.isEmpty()) {
+            throw new NoSuchElementException("User with id " + id + " not found");
+        }
+        List<LocationEntity> locations = userEntity.get().getLocationEntities();
+
+        Optional<LocationEntity> location = Optional.empty();
+        for (LocationEntity loc : locations) {
+            if (loc.getName().equals(name)) {
+                location = Optional.of(loc);
+            }
+        }
+
+        if (location.isEmpty()) {
+            throw new NoSuchElementException("User is not has location with name " + name);
+        } else {
+            locations.remove(location.get());
+
+            userRepository.save(userEntity.get());
+        }
+
+        return null;
+    }
+
 }

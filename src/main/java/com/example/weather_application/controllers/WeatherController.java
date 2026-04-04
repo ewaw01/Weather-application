@@ -159,4 +159,15 @@ public class WeatherController {
                 .body(mainService.findUserLocations(id));
     }
 
+    @DeleteMapping("/users/{id}/locations")
+    public ResponseEntity<Void> deleteUserLocations (
+            @PathVariable Long id,
+            @RequestParam String name
+    ) {
+        log.info("Deleting location " + name + " for user with id {}", id);
+
+        return ResponseEntity.ok()
+                .body(mainService.deleteLocationForUser(id, name));
+    }
+
 }
