@@ -4,9 +4,6 @@ import com.example.weather_application.user.User;
 import com.example.weather_application.entities.UserEntity;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.List;
-
 @Component
 public class UserMapper {
     public User toDomain(UserEntity userEntity) {

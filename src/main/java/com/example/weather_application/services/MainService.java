@@ -12,7 +12,6 @@ import com.example.weather_application.entities.UserEntity;
 import com.example.weather_application.mappers.UserMapper;
 import com.example.weather_application.user.UserSearchFilter;
 import com.example.weather_application.Utils;
-import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;

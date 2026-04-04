@@ -3,9 +3,7 @@ package com.example.weather_application.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Table(name = "cache_locations")
