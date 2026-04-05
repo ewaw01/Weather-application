@@ -221,7 +221,7 @@ _Проблема_: TransientPropertyValueException ошибка при сохр
    Скриншот из Postman:
    ![Обновление пользователя](screenshots/update-user.png)
 
-Пару примеров ошибок:
+**Пару примеров ошибок:**
 
 10. Ошибка 404 — пользователь не найден:
     DELETE http://localhost:8080/api/weather/users/999
