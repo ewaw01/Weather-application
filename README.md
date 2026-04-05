@@ -79,7 +79,22 @@ _**Как запустить?**_
   * cd Weather-application
 
 **Шаг 3: Создать БД**
-  * Запускаем PostgreSQL (можно в контейнере Docker)
+
+Способ 1 — через Docker (рекомендуется):
+
+* docker run --name weather-postgres \
+    -p 5432:5432 \
+    -e POSTGRES_USER=postgres \
+    -e POSTGRES_PASSWORD=your_password \
+    -e POSTGRES_DB=weather_db \
+    -d postgres
+* Замени your_password на свой пароль
+* Проверить, что БД запустиласть docker ps
+* Остановить контейнер: docker stop weather-postgres
+  
+Способ 2 — через локальный PostgreSQL:
+
+  * Запускаем PostgreSQL
   * Создаем БД: CREATE DATABASE weather_db;
   * Можно также через командную строку: createdb -U postgres weather_db
 
@@ -88,7 +103,10 @@ _**Как запустить?**_
   * Перейди в раздел "My API Keys"
   * Скопируй свой API ключ (или создай новый)
 
-**Шаг 5: Настройка конфигурации**
+**Шаг 5: Настройка конфигурации (application.properties)**
+
+Для начала создайте папку resources. Далле в ней создайте файл application.properties (src/main/resources/application.properties), куда нужно будет перенести следующие настройки:
+
   * БД настройки:
 
     spring.datasource.url=jdbc:postgresql://localhost:5432/weather_db
