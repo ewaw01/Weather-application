@@ -75,19 +75,22 @@ _Проблема_: TransientPropertyValueException ошибка при сохр
   * PostgreSQL любая (psql --version)
 
 **Шаг 2: Клонирование репозитория**
-  * git clone https://github.com/ewaw01/Weather-application.git
-  * cd Weather-application
-
+```bash
+git clone https://github.com/ewaw01/Weather-application.git
+cd Weather-application
+```
 **Шаг 3: Создать БД**
 
 Способ 1 — через Docker (рекомендуется):
 
-* docker run --name weather-postgres \
+* ```bash
+  docker run --name weather-postgres \
     -p 5432:5432 \
     -e POSTGRES_USER=postgres \
     -e POSTGRES_PASSWORD=your_password \
     -e POSTGRES_DB=weather_db \
     -d postgres
+  ```
 * Замени your_password на свой пароль
 * Проверить, что БД запустиласть docker ps
 * Остановить контейнер: docker stop weather-postgres
@@ -108,24 +111,24 @@ _Проблема_: TransientPropertyValueException ошибка при сохр
 Для начала создайте папку resources. Далле в ней создайте файл application.properties (src/main/resources/application.properties), куда нужно будет перенести следующие настройки:
 
   * БД настройки:
-
+    ```bash
     spring.datasource.url=jdbc:postgresql://localhost:5432/weather_db
     spring.datasource.username=postgres
     spring.datasource.password=your_password
-  
+    ```
   * JPA настройки:
-
+    ```bash
     spring.jpa.hibernate.ddl-auto=update
     spring.jpa.show-sql=true
     spring.jpa.properties.hibernate.format_sql=true
-  
+    ```
   * OpenWeatherMap API:
-
+    ```bash
     openweather.api.key=YOUR_API_KEY_HERE
     openweather.api.base-url=https://api.openweathermap.org/data/2.5
     openweather.defaults.units=metric
     openweather.defaults.lang=ru
- 
+    ```
   * Требуется заменить your_password на свой пароль PostgreSQL, а YOUR_API_KEY_HERE на реальный API ключ
 
 **Шаг 6: Запуск приложения**
